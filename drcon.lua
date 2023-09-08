@@ -164,12 +164,10 @@ function updateData()
     fluxgateIn.setSignalLowFlow(fluxval)
     -- output gate
     local saturation = ri.energySaturation / ri.maxEnergySaturation
-    if ri.temperature > 8000 then 
-      fluxgateOut.setSignalLowFlow(0)
+    if saturation < targetSaturation / 100 or ri.temperature > 8000 then
+      fluxgateOut.setSignalLowFlow(ri.generationRate - increment * 1000)
     elseif saturation > targetSaturation / 100 then
       fluxgateOut.setSignalLowFlow(ri.generationRate + increment * 1000)
-    elseif saturation < targetSaturation / 100 then
-      fluxgateOut.setSignalLowFlow(ri.generationRate - increment * 1000)
     else
       fluxgateOut.setSignalLowFlow(ri.generationRate)
     end
@@ -183,7 +181,7 @@ function draw()
   clear()
   writeLeft(38, 2, 'X', colors.white, colors.gray)
   writeLeft(7, 2, 'Draconic Reactor Controller')
-  writeLeft(3, 4, 'CURRENT')
+  writeLeft(3, 4, 'ACTUAL')
   writeLeft(2, 6, 'Temperature')
   writeRight(25, 6, string.format('%.1f', ri.temperature) .. 'C', getColorForTemperature(ri.temperature))
   writeLeft(2, 7, 'Field level')
