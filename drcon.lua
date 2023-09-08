@@ -65,14 +65,14 @@ function getColorForStatus(status)
 end
 
 function getColorForTemperature(temp)
-  if temp < 7000 then
-    return colors.green
-  elseif temp < 7500 then
-    return colors.yellow
-  elseif temp < 8000 then
-    return colors.orange
-  else
+  if temp > 8000 then
     return colors.red
+  elseif temp > 7500 then
+    return colors.orange
+  elseif temp > 7000 then
+    return colors.yellow
+  else
+    return colors.green
   end
 end
 
